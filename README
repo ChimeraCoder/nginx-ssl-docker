@@ -1,0 +1,27 @@
+nginx-ssl
+===========
+
+A simple Docker image for running nginx with SSL. Intended to be used in conjunction with other applications and/or services.
+
+
+This repository demonstrates the process of using a Dockerfile to create a Docker container that is then run on a machine without Docker (using systemd-nspawn).
+
+
+1. Create SSL certificate:
+
+````sh
+$ openssl req -new -newkey rsa:2048 -nodes -keyout nginx.key -out nginx.csr
+$ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx.key -out nginx.crt
+$ openssl dhparam -out dhparam.pem 2048
+````
+
+
+Use your domain/subdomain as the "Common name" (FQDN). Do not use a challenge password. All other fields are optional.
+
+
+2. Update the `server_name` field in `nginx.conf` to use your domain/subdomain.
+
+
+3. Update the `proxy_pass` field to point to the application you wish to serve.
+
+

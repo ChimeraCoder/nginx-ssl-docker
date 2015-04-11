@@ -1,9 +1,6 @@
 FROM debian:jessie
 MAINTAINER Aditya Mukerjee "dev@chimeracoder.net"
 
-#RUN echo "deb http://nginx.org/packages/debian/ wheezy nginx" >> /etc/apt/sources.list.d/nginx.list
-#RUN apt-key adv --fetch-keys "http://nginx.org/keys/nginx_signing.key"
-
 # Download and Install Nginx
 ENV DEBIAN_FRONTEND noninteractive 
 RUN apt-get update -y 
