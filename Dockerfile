@@ -8,7 +8,10 @@ MAINTAINER Aditya Mukerjee "dev@chimeracoder.net"
 ENV DEBIAN_FRONTEND noninteractive 
 RUN apt-get update -y 
 RUN apt-get upgrade -y 
-RUN apt-get install -y nginx openssl systemd
+RUN apt-get install -y nginx-full openssl systemd
+
+# Helpful for emergency debugging
+RUN apt-get install -y vim curl
 
 # Remove the default Nginx configuration file
 RUN rm -v /etc/nginx/nginx.conf
@@ -32,11 +35,8 @@ EXPOSE 80
 EXPOSE 443
 
 RUN systemctl enable nginx.service
-RUN systemctl start nginx.service
-
-# Run nginx in foreground (requires 'daemon off;' in nginx.conf)
-# If container is run using systemd-nspawn, this line will be ignored
-CMD ["/usr/sbin/nginx"]
+RUN systemctl enable systemd-networkd.service
+RUN systemctl enable systemd-resolved.service
 
 # Run systemd as init
 CMD ["/sbin/init"]
