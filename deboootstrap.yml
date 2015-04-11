@@ -1,0 +1,25 @@
+---
+- name: Set up ngingx container
+  hosts: 127.0.0.1
+  gather_facts: no
+  connection: local
+
+
+
+  tasks:
+    # Create a Debian image from scratch
+    # May take a while to download packages
+    - name: debootstrap
+      command: /usr/bin/debootstrap
+               --arch=amd64
+               unstable
+               debian-tree/
+      sudo: true
+
+    # Boot the machine stored at debian-tree and run /bin/true
+    # Will exit immediately
+    # To verify this, you can switch /bin/true to /bin/false
+    # and watch the command fail
+    - name: Spawn machine
+      command: systemd-nspawn -D debian-tree/ /bin/true
+      sudo: true
