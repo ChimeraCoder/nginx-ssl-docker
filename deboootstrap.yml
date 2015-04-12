@@ -7,13 +7,19 @@
 
 
   tasks:
+
+    - name: Make directory for debian tree
+      file: path="{{ playbook_dir }}/debian-tree/" state=directory owner=root group=root
+      sudo: true
+
+
     # Create a Debian image from scratch
     # May take a while to download packages
     - name: debootstrap
-      command: /usr/bin/debootstrap
+      command: debootstrap
                --arch=amd64
                unstable
-               debian-tree/
+               "{{ playbook_dir }}/debian-tree/"
       sudo: true
 
     # Boot the machine stored at debian-tree and run /bin/true
